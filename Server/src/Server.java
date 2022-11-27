@@ -9,7 +9,6 @@ import javax.swing.JOptionPane;
 public class Server {
     public ServerSocket serverSocket;
     public Socket clientSocket;
-    public InetAddress host;
 
     Server() {
         try {
@@ -60,5 +59,10 @@ public class Server {
 
     public boolean IsConnected() {
         return this.clientSocket.isConnected();
+    }
+
+    public void CollectCommand()
+    {
+        
     }
 }

@@ -15,6 +15,7 @@ public class AppDesign extends JFrame {
         setLayout(null);
 
         setTitle("Server");
+        setResizable(false);
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
