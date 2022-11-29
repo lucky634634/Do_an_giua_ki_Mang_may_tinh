@@ -8,7 +8,6 @@ import javax.swing.WindowConstants;
 public class AppDesign extends JFrame {
     JButton startButton = new JButton("Mở server");
     Server server = new Server();
-    KeyLogger keyLogger;
 
     AppDesign() {
         setSize(400, 300);

@@ -12,6 +12,8 @@ public class AppDesign extends JFrame {
     private JButton butConnect = new JButton("Kết nối");
     private JButton butProcess = new JButton(
             "<html><center>" + "Process running" + "</center></html>");
+    private JButton butApp = new JButton(
+            "<html><center>" + "App running" + "</center></html>");
     private JButton butShutdown = new JButton("<html><center>" + "Tắt máy" + "</center></html>");
     private JButton butLogout = new JButton("<html><center>" + "Đăng xuất" + "</center></html>");
     private JButton butExit = new JButton("<html><center>" + "Thoát" + "</center></html>");
@@ -38,8 +40,9 @@ public class AppDesign extends JFrame {
         add(butConnect);
 
         butProcess.setBounds(10, 40, 60, 210);
-        butShutdown.setBounds(80, 40, 200, 60);
-        butLogout.setBounds(80, 110, 200, 60);
+        butShutdown.setBounds(80, 40, 95, 60);
+        butLogout.setBounds(185, 40, 95, 60);
+        butApp.setBounds(80, 110, 200, 60);
         butPic.setBounds(80, 180, 200, 70);
         butKeyStroke.setBounds(290, 40, 80, 130);
 
@@ -47,6 +50,7 @@ public class AppDesign extends JFrame {
         add(butProcess);
         add(butShutdown);
         add(butLogout);
+        add(butApp);
         add(butPic);
         add(butKeyStroke);
         add(butExit);
@@ -104,28 +108,32 @@ public class AppDesign extends JFrame {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                // TODO Auto-generated method stub
 
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                // TODO Auto-generated method stub
 
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                // TODO Auto-generated method stub
 
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                // TODO Auto-generated method stub
 
             }
 
+        });
+
+        butShutdown.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                client.SendCommand("ShutDown");
+                System.out.println(client.ReceiveCommand());
+            }
         });
     }
 }
