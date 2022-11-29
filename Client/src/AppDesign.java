@@ -20,10 +20,10 @@ public class AppDesign extends JFrame {
     private JButton butPic = new JButton("<html><center>" + "Chụp màn hình" + "</center></html>");
     private JButton butKeyStroke = new JButton("<html><center>" + "Key stroke" + "</center></html>");
 
-    private Client client = new Client();
-    private KeyStroke keyStroke = new KeyStroke(client);
-    private ProcessesController processesController = new ProcessesController();
-    private ScreenCapture screenCapture = new ScreenCapture();
+    public Client client = new Client();
+    public KeyStroke keyStroke = new KeyStroke(client);
+    public ProcessesController processesController = new ProcessesController();
+    public ScreenCapture screenCapture = new ScreenCapture();
 
     AppDesign() {
         setBounds(0, 0, 400, 300);
@@ -84,7 +84,6 @@ public class AppDesign extends JFrame {
         butExit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                client.Close();
                 System.exit(0);
             }
         });
