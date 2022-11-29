@@ -21,7 +21,7 @@ public class AppDesign extends JFrame {
     private JButton butKeyStroke = new JButton("<html><center>" + "Key stroke" + "</center></html>");
 
     private Client client = new Client();
-    private KeyStroke keyStroke = new KeyStroke();
+    private KeyStroke keyStroke = new KeyStroke(client);
     private ProcessesController processesController = new ProcessesController();
     private ScreenCapture screenCapture = new ScreenCapture();
 
@@ -132,6 +132,14 @@ public class AppDesign extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 client.SendCommand("ShutDown");
+                System.out.println(client.ReceiveCommand());
+            }
+        });
+
+        butLogout.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                client.SendCommand("LogOff");
                 System.out.println(client.ReceiveCommand());
             }
         });

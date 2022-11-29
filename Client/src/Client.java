@@ -48,6 +48,10 @@ public class Client {
         String cmd = "None";
         try {
             cmd = dataInputStream.readUTF();
+            if (cmd != null) {
+                System.out.println(cmd);
+                return cmd;
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -57,27 +61,27 @@ public class Client {
     public Object ReceiveData() {
         if (!IsConnected())
             return null;
-        Object obj = null;
-        ObjectInputStream objectInputStream;
         try {
+            Object obj = null;
+            ObjectInputStream objectInputStream;
             objectInputStream = new ObjectInputStream(dataInputStream);
             obj = objectInputStream.readObject();
+            return obj;
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        return obj;
+        return null;
     }
 
     public void SendCommand(String cmd) {
+        if (!IsConnected())
+            return;
         try {
             dataOutputStream.writeUTF(cmd);
             dataOutputStream.flush();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
