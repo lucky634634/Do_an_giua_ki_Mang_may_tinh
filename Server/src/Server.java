@@ -8,8 +8,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import javax.swing.JOptionPane;
-
 public class Server {
     public ServerSocket serverSocket;
     public Socket clientSocket;
@@ -99,8 +97,6 @@ public class Server {
             return "None";
         }
         try {
-            this.dataOutputStream = new DataOutputStream(clientSocket.getOutputStream());
-            this.dataInputStream = new DataInputStream(clientSocket.getInputStream());
             String cmd = dataInputStream.readUTF();
             if (cmd != null) {
                 System.out.println(cmd);
@@ -117,8 +113,6 @@ public class Server {
             return null;
         Object obj;
         try {
-            this.dataOutputStream = new DataOutputStream(clientSocket.getOutputStream());
-            this.dataInputStream = new DataInputStream(clientSocket.getInputStream());
             ObjectInputStream objectInputStream = new ObjectInputStream(dataInputStream);
             obj = objectInputStream.readObject();
             return obj;
@@ -134,8 +128,6 @@ public class Server {
         if (!IsConnected())
             return;
         try {
-            this.dataOutputStream = new DataOutputStream(clientSocket.getOutputStream());
-            this.dataInputStream = new DataInputStream(clientSocket.getInputStream());
             dataOutputStream.writeUTF(cmd);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(dataOutputStream);
             objectOutputStream.writeObject(obj);
@@ -149,8 +141,6 @@ public class Server {
         if (!IsConnected())
             return;
         try {
-            this.dataOutputStream = new DataOutputStream(clientSocket.getOutputStream());
-            this.dataInputStream = new DataInputStream(clientSocket.getInputStream());
             dataOutputStream.writeUTF(cmd);
             dataOutputStream.flush();
         } catch (IOException e) {

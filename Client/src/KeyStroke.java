@@ -32,7 +32,9 @@ public class KeyStroke extends JFrame {
     void PrepareGUI() {
         textArea.setBounds(10, 10, 770, 300);
         textArea.setEditable(false);
-        textArea.setBackground(new Color(128, 128, 128));
+        textArea.setBackground(new Color(0, 0, 0));
+        textArea.setForeground(new Color(255, 255, 255));
+        textArea.setLineWrap(true);
         butHook.setBounds(10, 320, 80, 80);
         butUnhook.setBounds(100, 320, 80, 80);
         butView.setBounds(200, 320, 80, 80);
