@@ -19,6 +19,7 @@ public class KeyStroke extends JFrame {
         setLayout(null);
         setResizable(false);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        this.client = client;
     }
 
     void Open() {
