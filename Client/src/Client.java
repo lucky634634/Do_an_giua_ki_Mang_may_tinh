@@ -4,6 +4,7 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
+import java.net.SocketException;
 
 import javax.swing.JOptionPane;
 
@@ -77,6 +78,11 @@ public class Client {
                 System.out.println(cmd);
                 return cmd;
             }
+        } catch (SocketException e) {
+            this.clientSocket = null;
+            this.dataInputStream = null;
+            this.dataOutputStream = null;
+            return "";
         } catch (EOFException e) {
             this.clientSocket = null;
             this.dataInputStream = null;
@@ -96,6 +102,11 @@ public class Client {
             objectInputStream = new ObjectInputStream(dataInputStream);
             obj = objectInputStream.readObject();
             return obj;
+        } catch (SocketException e) {
+            this.clientSocket = null;
+            this.dataInputStream = null;
+            this.dataOutputStream = null;
+            return "";
         } catch (EOFException e) {
             this.clientSocket = null;
             this.dataInputStream = null;
