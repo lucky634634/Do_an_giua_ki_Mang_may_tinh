@@ -32,7 +32,8 @@ public class AppDesign extends JFrame implements MouseListener {
     public Client client = new Client(this);
     public KeyStroke keyStroke = new KeyStroke(client);
     public ProcessesController processesController = new ProcessesController();
-    public ScreenCapture screenCapture = new ScreenCapture();
+    public ScreenCapture screenCapture = new ScreenCapture(client);
+    public AppController appController = new AppController();
 
     AppDesign() {
         setLocation(0, 0);
@@ -88,6 +89,13 @@ public class AppDesign extends JFrame implements MouseListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 processesController.Open();
+            }
+        });
+
+        butApp.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                appController.Open();
             }
         });
 

