@@ -24,19 +24,19 @@ public class AppDesign extends JFrame implements MouseListener {
     private JButton butPic = new JButton("<html><center>" + "Chụp màn hình" + "</center></html>");
     private JButton butKeyStroke = new JButton("<html><center>" + "Keystroke" + "</center></html>");
 
-    private JButton[] buttons = {butConnect, butProcess, butApp, butShutdown, 
-        butLogout, butExit, butPic, butKeyStroke};
+    private JButton[] buttons = { butConnect, butProcess, butApp, butShutdown,
+            butLogout, butExit, butPic, butKeyStroke };
     private int frameWidth = 400;
     private int frameHeight = 300;
 
-    public Client client = new Client();
+    public Client client = new Client(this);
     public KeyStroke keyStroke = new KeyStroke(client);
     public ProcessesController processesController = new ProcessesController();
     public ScreenCapture screenCapture = new ScreenCapture();
 
     AppDesign() {
         setLocation(0, 0);
-        setPreferredSize(new Dimension(frameWidth,frameHeight));
+        setPreferredSize(new Dimension(frameWidth, frameHeight));
         CenterAlignTitle();
         setVisible(true);
         setResizable(false);
@@ -45,24 +45,24 @@ public class AppDesign extends JFrame implements MouseListener {
     }
 
     public void ShowButton() {
-        txtIP.        setBounds(10, 10, 270, 20);
-        butConnect.   setBounds(290, 10, 80, 20);
-        butProcess.   setBounds(10, 40, 60, 210);
-        butShutdown.  setBounds(80, 40, 95, 60);
-        butLogout.    setBounds(185, 40, 95, 60);
-        butApp.       setBounds(80, 110, 200, 60);
-        butPic.       setBounds(80, 180, 200, 70);
-        butKeyStroke. setBounds(290, 40, 80, 130);
-        butExit.      setBounds(290, 180, 80, 70);
-        
-        txtIP.        setFont(new Font("System", Font.PLAIN, 12));
+        txtIP.setBounds(10, 10, 270, 20);
+        butConnect.setBounds(290, 10, 80, 20);
+        butProcess.setBounds(10, 40, 60, 210);
+        butShutdown.setBounds(80, 40, 95, 60);
+        butLogout.setBounds(185, 40, 95, 60);
+        butApp.setBounds(80, 110, 200, 60);
+        butPic.setBounds(80, 180, 200, 70);
+        butKeyStroke.setBounds(290, 40, 80, 130);
+        butExit.setBounds(290, 180, 80, 70);
+
+        txtIP.setFont(new Font("System", Font.PLAIN, 12));
         add(txtIP);
 
-        for(JButton button : buttons) {
+        for (JButton button : buttons) {
             PrepareGUI(button);
             add(button);
         }
-        
+
         pack();
         setVisible(true);
         AddAction();
@@ -105,37 +105,7 @@ public class AppDesign extends JFrame implements MouseListener {
             }
         });
 
-        txtIP.addMouseListener(new MouseListener() {
-
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (txtIP.getText().charAt(0) == 'N') {
-                    txtIP.setText("");
-                }
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-
-        });
+        txtIP.addMouseListener(this);
 
         butShutdown.addActionListener(new ActionListener() {
             @Override
@@ -160,24 +130,27 @@ public class AppDesign extends JFrame implements MouseListener {
         FontMetrics fm = this.getFontMetrics(f);
         int x = fm.stringWidth("Client");
         int y = fm.stringWidth(" ");
-        int z = (frameWidth/2) - (x/2);
-        int w = z/y;
-        String pad =" ";
-        pad = String.format("%"+w+"s", pad);
-        setTitle(pad+"Client");
+        int z = (frameWidth / 2) - (x / 2);
+        int w = z / y;
+        String pad = " ";
+        pad = String.format("%" + w + "s", pad);
+        setTitle(pad + "Client");
     }
 
     private void PrepareGUI(JButton button) {
         button.setOpaque(true);
         button.setFont(new Font("System", Font.PLAIN, 12));
         button.setFocusable(false);
-        button.setBackground(Color.decode("#DCDEE6"));//E8E8E8
+        button.setBackground(Color.decode("#DCDEE6"));// E8E8E8
         button.setBorder(new RoundedBorder(10));
         button.addMouseListener(this);
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        if (e.getSource() == txtIP && txtIP.getText().length() > 0 && txtIP.getText().charAt(0) == 'N') {
+            txtIP.setText("");
+        }
     }
 
     @Override

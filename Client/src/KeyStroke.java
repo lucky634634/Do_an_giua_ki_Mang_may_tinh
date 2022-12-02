@@ -1,8 +1,13 @@
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -14,7 +19,7 @@ public class KeyStroke extends JFrame {
     private JButton butUnhook = new JButton("<html><center>" + "Unhook" + "</center></html>");
     private JButton butSave = new JButton("<html><center>" + "Lưu file" + "</center></html>");
     private JButton butDel = new JButton("<html><center>" + "Xóa" + "</center></html>");
-    private static JTextArea textArea = new JTextArea();
+    private JTextArea textArea = new JTextArea();
     private Client client;
 
     public KeyStroke(Client client) {
@@ -44,10 +49,12 @@ public class KeyStroke extends JFrame {
         butHook.setBounds(10, 320, 80, 80);
         butUnhook.setBounds(100, 320, 80, 80);
         butDel.setBounds(190, 320, 80, 80);
+        butSave.setBounds(280, 320, 80, 80);
         add(scrollPane);
         add(butHook);
         add(butUnhook);
         add(butDel);
+        add(butSave);
     }
 
     void AddAction() {
@@ -63,9 +70,41 @@ public class KeyStroke extends JFrame {
                 client.SendCommand("StopHook");
             }
         });
+
+        butDel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                client.SendCommand("DeleteKey");
+            }
+        });
+
+        butSave.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SaveFile(null);
+            }
+        });
     }
 
-    public static void ApplyText(String text) {
+    public void ApplyText(String text) {
         textArea.setText(text);
+    }
+
+    public void SaveFile(String path) {
+        JFileChooser fileChooser = new JFileChooser(path);
+        int value = fileChooser.showSaveDialog(this);
+        if (value == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            try {
+                fileToSave.createNewFile();
+                FileOutputStream fileOutputStream = new FileOutputStream(fileToSave);
+                fileOutputStream.write(textArea.getText().getBytes());
+                fileOutputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
     }
 }

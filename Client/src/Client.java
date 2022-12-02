@@ -13,9 +13,11 @@ public class Client {
     public DataInputStream dataInputStream;
     public DataOutputStream dataOutputStream;
     private Thread receiveThread;
+    private AppDesign appDesign;
 
-    public Client() {
+    public Client(AppDesign appDesign) {
         this.clientSocket = new Socket();
+        this.appDesign = appDesign;
     }
 
     public void Connect(String ip, int port) {
@@ -44,7 +46,7 @@ public class Client {
             String cmd = ReceiveCommand();
             if (cmd.equalsIgnoreCase("ViewKey")) {
                 String text = (String) ReceiveData();
-                KeyStroke.ApplyText(text);
+                appDesign.keyStroke.ApplyText(text);
             }
         }
     }
@@ -69,6 +71,7 @@ public class Client {
 
     public String ReceiveCommand() {
         if (!IsConnected()) {
+            JOptionPane.showMessageDialog(null, "Lỗi kết nối dến server");
             return "None";
         }
         String cmd = "None";
@@ -94,8 +97,10 @@ public class Client {
     }
 
     public Object ReceiveData() {
-        if (!IsConnected())
+        if (!IsConnected()) {
+            JOptionPane.showMessageDialog(null, "Lỗi kết nối dến server");
             return null;
+        }
         try {
             Object obj = null;
             ObjectInputStream objectInputStream;
@@ -120,8 +125,10 @@ public class Client {
     }
 
     public void SendCommand(String cmd) {
-        if (!IsConnected())
+        if (!IsConnected()) {
+            JOptionPane.showMessageDialog(null, "Lỗi kết nối dến server");
             return;
+        }
         try {
             dataOutputStream.writeUTF(cmd);
             dataOutputStream.flush();
