@@ -1,3 +1,7 @@
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -7,18 +11,23 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 
-public class AppDesign extends JFrame {
+public class AppDesign extends JFrame implements MouseListener {
     private JTextField txtIP = new JTextField("Nhập IP");
     private JButton butConnect = new JButton("Kết nối");
     private JButton butProcess = new JButton(
-            "<html><center>" + "Process running" + "</center></html>");
+            "<html><center>" + "Process Running" + "</center></html>");
     private JButton butApp = new JButton(
-            "<html><center>" + "App running" + "</center></html>");
+            "<html><center>" + "App Running" + "</center></html>");
     private JButton butShutdown = new JButton("<html><center>" + "Tắt máy" + "</center></html>");
     private JButton butLogout = new JButton("<html><center>" + "Đăng xuất" + "</center></html>");
     private JButton butExit = new JButton("<html><center>" + "Thoát" + "</center></html>");
     private JButton butPic = new JButton("<html><center>" + "Chụp màn hình" + "</center></html>");
-    private JButton butKeyStroke = new JButton("<html><center>" + "Key stroke" + "</center></html>");
+    private JButton butKeyStroke = new JButton("<html><center>" + "Keystroke" + "</center></html>");
+
+    private JButton[] buttons = {butConnect, butProcess, butApp, butShutdown, 
+        butLogout, butExit, butPic, butKeyStroke};
+    private int frameWidth = 400;
+    private int frameHeight = 300;
 
     public Client client = new Client();
     public KeyStroke keyStroke = new KeyStroke(client);
@@ -26,7 +35,9 @@ public class AppDesign extends JFrame {
     public ScreenCapture screenCapture = new ScreenCapture();
 
     AppDesign() {
-        setBounds(0, 0, 400, 300);
+        setLocation(0, 0);
+        setPreferredSize(new Dimension(frameWidth,frameHeight));
+        CenterAlignTitle();
         setVisible(true);
         setResizable(false);
         setLayout(null);
@@ -34,26 +45,25 @@ public class AppDesign extends JFrame {
     }
 
     public void ShowButton() {
-        txtIP.setBounds(10, 10, 200, 20);
-        butConnect.setBounds(220, 10, 100, 20);
+        txtIP.        setBounds(10, 10, 270, 20);
+        butConnect.   setBounds(290, 10, 80, 20);
+        butProcess.   setBounds(10, 40, 60, 210);
+        butShutdown.  setBounds(80, 40, 95, 60);
+        butLogout.    setBounds(185, 40, 95, 60);
+        butApp.       setBounds(80, 110, 200, 60);
+        butPic.       setBounds(80, 180, 200, 70);
+        butKeyStroke. setBounds(290, 40, 80, 130);
+        butExit.      setBounds(290, 180, 80, 70);
+        
+        txtIP.        setFont(new Font("System", Font.PLAIN, 12));
         add(txtIP);
-        add(butConnect);
 
-        butProcess.setBounds(10, 40, 60, 210);
-        butShutdown.setBounds(80, 40, 95, 60);
-        butLogout.setBounds(185, 40, 95, 60);
-        butApp.setBounds(80, 110, 200, 60);
-        butPic.setBounds(80, 180, 200, 70);
-        butKeyStroke.setBounds(290, 40, 80, 130);
-
-        butExit.setBounds(290, 180, 80, 70);
-        add(butProcess);
-        add(butShutdown);
-        add(butLogout);
-        add(butApp);
-        add(butPic);
-        add(butKeyStroke);
-        add(butExit);
+        for(JButton button : buttons) {
+            PrepareGUI(button);
+            add(button);
+        }
+        
+        pack();
         setVisible(true);
         AddAction();
     }
@@ -143,4 +153,49 @@ public class AppDesign extends JFrame {
             }
         });
     }
+
+    private void CenterAlignTitle() {
+        this.setFont(new Font("System", Font.PLAIN, 14));
+        Font f = this.getFont();
+        FontMetrics fm = this.getFontMetrics(f);
+        int x = fm.stringWidth("Client");
+        int y = fm.stringWidth(" ");
+        int z = (frameWidth/2) - (x/2);
+        int w = z/y;
+        String pad =" ";
+        pad = String.format("%"+w+"s", pad);
+        setTitle(pad+"Client");
+    }
+
+    private void PrepareGUI(JButton button) {
+        button.setOpaque(true);
+        button.setFont(new Font("System", Font.PLAIN, 12));
+        button.setFocusable(false);
+        button.setBackground(Color.decode("#DCDEE6"));//E8E8E8
+        button.setBorder(new RoundedBorder(10));
+        button.addMouseListener(this);
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        e.getComponent().setBackground(Color.decode("#d4ebf2"));
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        e.getComponent().setBackground(Color.decode("#DCDEE6"));
+    }
+
 }
