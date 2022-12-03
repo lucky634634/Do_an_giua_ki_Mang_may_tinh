@@ -4,6 +4,7 @@ import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 
@@ -55,6 +56,9 @@ public class Client {
             } else if (cmd.equalsIgnoreCase("Processes")) {
                 TaskObject task = (TaskObject) ReceiveData();
                 appDesign.processesController.SetProcess(task);
+            } else if (cmd.equalsIgnoreCase("Apps")) {
+                String[][] apps = (String[][]) ReceiveData();
+                appDesign.appController.SetApps(apps);
             }
         }
     }
@@ -144,6 +148,23 @@ public class Client {
             this.clientSocket = null;
             this.dataInputStream = null;
             this.dataOutputStream = null;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void SendData(String cmd, Object obj) {
+        if (!IsConnected()) {
+            JOptionPane.showMessageDialog(null, "Lỗi kết nối dến server");
+            return;
+        }
+        try {
+            dataOutputStream.writeUTF(cmd);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(dataOutputStream);
+            objectOutputStream.writeObject(obj);
+            dataOutputStream.flush();
+        } catch (SocketException e) {
+            this.clientSocket = null;
         } catch (IOException e) {
             e.printStackTrace();
         }

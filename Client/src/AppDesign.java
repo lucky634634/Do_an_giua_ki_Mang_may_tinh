@@ -33,7 +33,7 @@ public class AppDesign extends JFrame implements MouseListener {
     public KeyStroke keyStroke = new KeyStroke(client);
     public ProcessesController processesController = new ProcessesController(client);
     public ScreenCapture screenCapture = new ScreenCapture(client);
-    public AppController appController = new AppController();
+    public AppController appController = new AppController(client);
 
     AppDesign() {
         setLocation(0, 0);

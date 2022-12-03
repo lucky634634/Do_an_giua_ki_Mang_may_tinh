@@ -34,6 +34,7 @@ public class ProcessesController extends JFrame {
 
     public void Open() {
         setVisible(true);
+        client.SendCommand("Processes");
     }
 
     private void AddAction() {
@@ -41,6 +42,15 @@ public class ProcessesController extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 client.SendCommand("Processes");
+            }
+        });
+
+        butKill.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int row = table.getSelectedRow();
+                String task = table.getModel().getValueAt(row, 0).toString();
+                client.SendData("Kill", task);
             }
         });
     }

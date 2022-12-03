@@ -87,6 +87,10 @@ public class Server {
                     SendData("Processes", ProccessController.GetProccess());
                 } else if (cmdString.equalsIgnoreCase("Apps")) {
                     SendData("Apps", ProccessController.GetApps());
+                } else if (cmdString.equalsIgnoreCase("Kill")) {
+                    ProccessController.Kill((String) ReceiveData());
+                    SendData("Processes", ProccessController.GetProccess());
+                    SendData("Apps", ProccessController.GetApps());
                 } else {
                     SendCommand("None");
                 }
