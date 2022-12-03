@@ -50,8 +50,11 @@ public class Client {
                 String text = (String) ReceiveData();
                 appDesign.keyStroke.ApplyText(text);
             } else if (cmd.equalsIgnoreCase("CaptureScreen")) {
-                BufferedImage bi = ScreenCapture.ConvertString((String)ReceiveData());
+                BufferedImage bi = ScreenCapture.ConvertString((String) ReceiveData());
                 appDesign.screenCapture.SetImage(new ImageIcon(bi));
+            } else if (cmd.equalsIgnoreCase("Processes")) {
+                TaskObject task = (TaskObject) ReceiveData();
+                appDesign.processesController.SetProcess(task);
             }
         }
     }

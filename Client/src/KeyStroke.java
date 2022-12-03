@@ -80,7 +80,7 @@ public class KeyStroke extends JFrame {
         butSave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                SaveFile(null);
+                SaveFile();
             }
         });
     }
@@ -89,8 +89,8 @@ public class KeyStroke extends JFrame {
         textArea.setText(text);
     }
 
-    public void SaveFile(String path) {
-        JFileChooser fileChooser = new JFileChooser(path);
+    public void SaveFile() {
+        JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir"));
         int value = fileChooser.showSaveDialog(this);
         if (value == JFileChooser.APPROVE_OPTION) {
             File fileToSave = fileChooser.getSelectedFile();

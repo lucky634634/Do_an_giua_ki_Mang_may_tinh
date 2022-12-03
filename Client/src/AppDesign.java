@@ -31,7 +31,7 @@ public class AppDesign extends JFrame implements MouseListener {
 
     public Client client = new Client(this);
     public KeyStroke keyStroke = new KeyStroke(client);
-    public ProcessesController processesController = new ProcessesController();
+    public ProcessesController processesController = new ProcessesController(client);
     public ScreenCapture screenCapture = new ScreenCapture(client);
     public AppController appController = new AppController();
 
