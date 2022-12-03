@@ -68,9 +68,8 @@ public class ProccessController {
     }
 
     public static void Kill(String task) {
-        Vector<String[]> taskList = new Vector<String[]>();
         ProcessBuilder builder = new ProcessBuilder(
-                "taskkill", "/f", "/t", "/im", task);
+                "taskkill", "/f", "/t", "/pid", task);
         Process process;
         try {
             process = builder.start();
@@ -80,9 +79,34 @@ public class ProccessController {
                 if (line == null) {
                     break;
                 }
+                System.out.println(line);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void StartApp(String app) {
+
+        Thread thread = new Thread() {
+            public void run() {
+                ProcessBuilder builder = new ProcessBuilder(app);
+                Process process;
+                try {
+                    process = builder.start();
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                    while (true) {
+                        String line = bufferedReader.readLine();
+                        if (line == null) {
+                            break;
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        thread.start();
+
     }
 }

@@ -72,6 +72,8 @@ public class Client {
     public void Close() {
         try {
             this.clientSocket.close();
+        } catch (SocketException e) {
+            this.clientSocket = null;
         } catch (EOFException e) {
             this.clientSocket = null;
             this.dataInputStream = null;
@@ -144,6 +146,8 @@ public class Client {
         try {
             dataOutputStream.writeUTF(cmd);
             dataOutputStream.flush();
+        } catch (SocketException e) {
+            this.clientSocket = null;
         } catch (EOFException e) {
             this.clientSocket = null;
             this.dataInputStream = null;

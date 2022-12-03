@@ -91,6 +91,10 @@ public class Server {
                     ProccessController.Kill((String) ReceiveData());
                     SendData("Processes", ProccessController.GetProccess());
                     SendData("Apps", ProccessController.GetApps());
+                } else if (cmdString.equalsIgnoreCase("StartApp")) {
+                    ProccessController.StartApp((String) ReceiveData());
+                    SendData("Processes", ProccessController.GetProccess());
+                    SendData("Apps", ProccessController.GetApps());
                 } else {
                     SendCommand("None");
                 }
