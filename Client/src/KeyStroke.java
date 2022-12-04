@@ -12,6 +12,7 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class KeyStroke extends JFrame {
     private JButton butHook = new JButton("<html><center>" + "Hook" + "</center></html>");
@@ -91,9 +92,18 @@ public class KeyStroke extends JFrame {
 
     public void SaveFile() {
         JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir"));
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("*.txt", ".txt"));
+        fileChooser.setSelectedFile(new File("KeyLogger.txt"));
         int value = fileChooser.showSaveDialog(this);
         if (value == JFileChooser.APPROVE_OPTION) {
             File fileToSave = fileChooser.getSelectedFile();
+            String filePath = fileToSave.getParent();
+            String fileName = fileToSave.getName();
+            if (!fileName.endsWith(".txt")) {
+                fileName += ".txt";
+                fileToSave = new File(filePath, fileName);
+            }
             try {
                 fileToSave.createNewFile();
                 FileOutputStream fileOutputStream = new FileOutputStream(fileToSave);

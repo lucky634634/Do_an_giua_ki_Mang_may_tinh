@@ -16,6 +16,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class ScreenCapture extends JFrame {
     private ImageIcon imageIcon = new ImageIcon();
@@ -95,10 +96,20 @@ public class ScreenCapture extends JFrame {
 
     public void SavePicture() {
         JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir"));
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("*.png", ".png"));
+        fileChooser.setSelectedFile(new File("Screen.png"));
         int value = fileChooser.showSaveDialog(this);
         if (value == JFileChooser.APPROVE_OPTION) {
             File fileToSave = fileChooser.getSelectedFile();
+            String filePath = fileToSave.getParent();
+            String fileName = fileToSave.getName();
+            if (!fileName.endsWith(".png")) {
+                fileName += ".png";
+                fileToSave = new File(filePath, fileName);
+            }
             try {
+                fileToSave.createNewFile();
                 ImageIO.write((RenderedImage) imageIcon.getImage(), "png", fileToSave);
             } catch (IOException e) {
                 e.printStackTrace();

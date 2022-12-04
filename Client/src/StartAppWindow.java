@@ -28,6 +28,7 @@ public class StartAppWindow extends JFrame {
 
     public void Open() {
         setVisible(true);
+        textField.setText("");
     }
 
     private void AddAction() {
