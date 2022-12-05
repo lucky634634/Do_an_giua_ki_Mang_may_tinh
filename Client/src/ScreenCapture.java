@@ -37,6 +37,7 @@ public class ScreenCapture extends JFrame implements MouseListener {
 
 
     public ScreenCapture(Client client) {
+        // setSize(1024, 520);
         setLocation(160, 90);
         setPreferredSize(new Dimension(frameWidth, frameHeight));
         CenterAlignTitle();
