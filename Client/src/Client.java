@@ -34,7 +34,7 @@ public class Client {
             dataOutputStream = new DataOutputStream(clientSocket.getOutputStream());
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Lỗi kết nối dến server");
+            JOptionPane.showMessageDialog(null, "Lỗi kết nối đến server", null, JOptionPane.ERROR_MESSAGE);
         }
         receiveThread = new Thread() {
             public void run() {

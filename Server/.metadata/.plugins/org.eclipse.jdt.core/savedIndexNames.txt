@@ -1,0 +1,1 @@
+INDEX VERSION 1.131+D:\GitHubProj\Do_an_giua_ki_Mang_may_tinh\Server\.metadata\.plugins\org.eclipse.jdt.core

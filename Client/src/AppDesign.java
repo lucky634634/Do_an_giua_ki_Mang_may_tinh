@@ -13,7 +13,7 @@ import javax.swing.JTextField;
 
 public class AppDesign extends JFrame implements MouseListener {
     private JTextField txtIP = new JTextField("Nhập IP");
-    private JButton butConnect = new JButton("Kết nối");
+    private JButton butConnect = new JButton("<html><center>" +"Kết nối"+ "</center></html>");
     private JButton butProcess = new JButton(
             "<html><center>" + "Process Running" + "</center></html>");
     private JButton butApp = new JButton(
@@ -26,8 +26,9 @@ public class AppDesign extends JFrame implements MouseListener {
 
     private JButton[] buttons = { butConnect, butProcess, butApp, butShutdown,
             butLogout, butExit, butPic, butKeyStroke };
-    private int frameWidth = 400;
-    private int frameHeight = 300;
+    private static int frameWidth = 400;
+    private static int frameHeight = 300;
+    private static String title = "Client";
 
     public Client client = new Client(this);
     public KeyStroke keyStroke = new KeyStroke(client);
@@ -57,6 +58,7 @@ public class AppDesign extends JFrame implements MouseListener {
         butExit.setBounds(290, 180, 80, 70);
 
         txtIP.setFont(new Font("System", Font.PLAIN, 12));
+        txtIP.setBackground(Color.decode("#E6E6FA"));
         add(txtIP);
 
         for (JButton button : buttons) {
@@ -136,29 +138,26 @@ public class AppDesign extends JFrame implements MouseListener {
         this.setFont(new Font("System", Font.PLAIN, 14));
         Font f = this.getFont();
         FontMetrics fm = this.getFontMetrics(f);
-        int x = fm.stringWidth("Client");
+        int x = fm.stringWidth(title);
         int y = fm.stringWidth(" ");
-        int z = (frameWidth / 2) - (x / 2);
-        int w = z / y;
-        String pad = " ";
-        pad = String.format("%" + w + "s", pad);
-        setTitle(pad + "Client");
+        int z = (frameWidth/2) - (x/2);
+        int w = z/y;
+        String pad =" ";
+        pad = String.format("%"+w+"s", pad);
+        setTitle(pad+title);
     }
 
     private void PrepareGUI(JButton button) {
         button.setOpaque(true);
         button.setFont(new Font("System", Font.PLAIN, 12));
         button.setFocusable(false);
-        button.setBackground(Color.decode("#DCDEE6"));// E8E8E8
+        button.setBackground(Color.decode("#E6E6FA"));//E8E8E8
         button.setBorder(new RoundedBorder(10));
         button.addMouseListener(this);
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getSource() == txtIP && txtIP.getText().length() > 0 && txtIP.getText().charAt(0) == 'N') {
-            txtIP.setText("");
-        }
     }
 
     @Override
@@ -171,12 +170,13 @@ public class AppDesign extends JFrame implements MouseListener {
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        e.getComponent().setBackground(Color.decode("#d4ebf2"));
+        e.getComponent().setBackground(Color.decode("#B8C7F4"));// DCDEE6
+
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        e.getComponent().setBackground(Color.decode("#DCDEE6"));
+        e.getComponent().setBackground(Color.decode("#E6E6FA"));// DCDEE6
     }
 
 }
