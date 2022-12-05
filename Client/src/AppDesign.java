@@ -171,7 +171,6 @@ public class AppDesign extends JFrame implements MouseListener {
     @Override
     public void mouseEntered(MouseEvent e) {
         e.getComponent().setBackground(Color.decode("#B8C7F4"));// DCDEE6
-
     }
 
     @Override

@@ -1,3 +1,5 @@
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,8 +19,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.event.MouseListener;
+import java.awt.Color;
 
-public class ScreenCapture extends JFrame {
+public class ScreenCapture extends JFrame implements MouseListener {
     private ImageIcon imageIcon = new ImageIcon();
     private JLabel label = new JLabel();
     private JButton butCapture = new JButton("<html><center>" + "Chụp" + "</center></html>");
@@ -26,9 +30,18 @@ public class ScreenCapture extends JFrame {
     private JScrollPane scrollPane;
     private Client client;
 
+    private JButton[] buttons = { butCapture, butSave };
+    private static int frameWidth = 960;// 1024
+    private static int frameHeight = 520;
+    private String title = "pic";
+
+
     public ScreenCapture(Client client) {
+        setLocation(160, 90);
+        setPreferredSize(new Dimension(frameWidth, frameHeight));
+        CenterAlignTitle();
+
         setLayout(null);
-        setSize(1024, 520);
         setResizable(false);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -37,11 +50,16 @@ public class ScreenCapture extends JFrame {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         add(scrollPane);
-        butCapture.setBounds(840, 10, 60, 60);
-        butSave.setBounds(840, 80, 60, 60);
 
-        add(butSave);
-        add(butCapture);
+        butCapture.setBounds(840, 10, 80, 320);
+        butSave.setBounds(840, 380, 80, 80);
+
+        for (JButton button : buttons) {
+            PrepareGUI(button);
+            add(button);
+        }
+
+        pack();
         AddAction();
         this.client = client;
     }
@@ -116,4 +134,49 @@ public class ScreenCapture extends JFrame {
             }
         }
     }
+
+    private void CenterAlignTitle() {
+        this.setFont(new Font("System", Font.PLAIN, 14));
+        Font f = this.getFont();
+        java.awt.FontMetrics fm = this.getFontMetrics(f);
+        int x = fm.stringWidth(title);
+        int y = fm.stringWidth(" ");
+        int z = (frameWidth/2) - (x/2);
+        int w = z/y;
+        String pad =" ";
+        pad = String.format("%"+w+"s", pad);
+        setTitle(pad+title);
+    }
+
+    private void PrepareGUI(JButton button) {
+        button.setOpaque(true);
+        button.setFont(new Font("System", Font.PLAIN, 14));
+        button.setFocusable(false);
+        button.setBackground(Color.decode("#E6E6FA"));//E8E8E8
+        button.setBorder(new RoundedBorder(10));
+        button.addMouseListener(this);
+    }
+
+    @Override
+    public void mouseClicked(java.awt.event.MouseEvent e) {
+    }
+
+    @Override
+    public void mousePressed(java.awt.event.MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(java.awt.event.MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(java.awt.event.MouseEvent e) {
+        e.getComponent().setBackground(Color.decode("#B8C7F4"));// DCDEE6
+    }
+
+    @Override
+    public void mouseExited(java.awt.event.MouseEvent e) {
+        e.getComponent().setBackground(Color.decode("#E6E6FA"));// DCDEE6
+    }
+
 }
