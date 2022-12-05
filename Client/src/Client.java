@@ -29,7 +29,7 @@ public class Client {
         }
         try {
             this.clientSocket = new Socket(ip, port);
-            JOptionPane.showMessageDialog(null, "Kết nối đến server thành công");
+            JOptionPane.showMessageDialog(null, "Kết nối đến server thành công", null, JOptionPane.INFORMATION_MESSAGE);
             dataInputStream = new DataInputStream(clientSocket.getInputStream());
             dataOutputStream = new DataOutputStream(clientSocket.getOutputStream());
         } catch (Exception e) {
@@ -85,7 +85,7 @@ public class Client {
 
     public String ReceiveCommand() {
         if (!IsConnected()) {
-            JOptionPane.showMessageDialog(null, "Lỗi kết nối dến server");
+            // JOptionPane.showMessageDialog(null, "Lỗi kết nối dến server1");
             return "None";
         }
         String cmd = "None";
@@ -112,7 +112,7 @@ public class Client {
 
     public Object ReceiveData() {
         if (!IsConnected()) {
-            JOptionPane.showMessageDialog(null, "Lỗi kết nối dến server");
+            JOptionPane.showMessageDialog(null, "Lỗi kết nối dến server2");
             return null;
         }
         try {
@@ -140,7 +140,7 @@ public class Client {
 
     public void SendCommand(String cmd) {
         if (!IsConnected()) {
-            JOptionPane.showMessageDialog(null, "Lỗi kết nối dến server");
+            JOptionPane.showMessageDialog(null, "Chưa kết nối dến server", null, JOptionPane.INFORMATION_MESSAGE);
             return;
         }
         try {
@@ -159,7 +159,7 @@ public class Client {
 
     public void SendData(String cmd, Object obj) {
         if (!IsConnected()) {
-            JOptionPane.showMessageDialog(null, "Lỗi kết nối dến server");
+            JOptionPane.showMessageDialog(null, "Lỗi kết nối dến server3");
             return;
         }
         try {
@@ -173,4 +173,5 @@ public class Client {
             e.printStackTrace();
         }
     }
+
 }
