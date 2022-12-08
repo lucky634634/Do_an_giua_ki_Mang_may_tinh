@@ -14,14 +14,15 @@ import java.awt.event.MouseListener;
 public class AppController extends JFrame implements MouseListener {
     private Client client;
     private String[] columnPanes = { "Name", "ID" };
-    private JTable table = new JTable(new String[0][1], columnPanes);
+    private JTable table = new JTable(new String[0][2], columnPanes);
     private JScrollPane scrollPane = new JScrollPane(table);
     private JButton butRefresh = new JButton("<html><center>" + "Refresh" + "</center></html>");
     private JButton butKill = new JButton("<html><center>" + "Kill" + "</center></html>");
     private JButton butStart = new JButton("<html><center>" + "Start" + "</center></html>");
+    private JButton butDelete = new JButton("<html><center>" + "Delete" + "</center></html>");
     private StartAppWindow startAppWindow;
 
-    private JButton[] buttons = { butRefresh, butKill, butStart };
+    private JButton[] buttons = { butRefresh, butKill, butStart, butDelete };
     private static int frameWidth = 450;
     private static int frameHeight = 450;
     private static String title = "listApp";
@@ -42,16 +43,12 @@ public class AppController extends JFrame implements MouseListener {
         butRefresh.setBounds(30, 15, 80, 60);
         butKill.setBounds(130, 15, 80, 60);
         butStart.setBounds(230, 15, 80, 60);
-        
-        JButton tmpBut = new JButton();
-        tmpBut.setBounds(330, 15, 90, 60);
-        add(tmpBut);
+        butDelete.setBounds(330, 15, 90, 60);
 
         for (JButton button : buttons) {
             PrepareGUI(button);
             add(button);
         }
-
         pack();
         AddAction();
         this.client = client;
@@ -84,6 +81,13 @@ public class AppController extends JFrame implements MouseListener {
                 startAppWindow.Open();
             }
         });
+
+        butDelete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SetApps(new String[0][2]);
+            }
+        });
     }
 
     public void SetApps(String[][] apps) {
@@ -97,18 +101,18 @@ public class AppController extends JFrame implements MouseListener {
         java.awt.FontMetrics fm = this.getFontMetrics(f);
         int x = fm.stringWidth(title);
         int y = fm.stringWidth(" ");
-        int z = (frameWidth/2) - (x/2);
-        int w = z/y;
-        String pad =" ";
-        pad = String.format("%"+w+"s", pad);
-        setTitle(pad+title);
+        int z = (frameWidth / 2) - (x / 2);
+        int w = z / y;
+        String pad = " ";
+        pad = String.format("%" + w + "s", pad);
+        setTitle(pad + title);
     }
 
     private void PrepareGUI(JButton button) {
         button.setOpaque(true);
         button.setFont(new Font("System", Font.PLAIN, 12));
         button.setFocusable(false);
-        button.setBackground(Color.decode("#E6E6FA"));//E8E8E8
+        button.setBackground(Color.decode("#E6E6FA"));// E8E8E8
         button.setBorder(new RoundedBorder(10));
         button.addMouseListener(this);
     }

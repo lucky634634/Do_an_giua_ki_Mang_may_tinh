@@ -20,9 +20,10 @@ public class ProcessesController extends JFrame implements MouseListener {
     private JButton butRefresh = new JButton("<html><center>" + "Refresh" + "</center></html>");
     private JButton butKill = new JButton("<html><center>" + "Kill" + "</center></html>");
     private JButton butStart = new JButton("<html><center>" + "Start" + "</center></html>");
+    private JButton butDelete = new JButton("<html><center>" + "Delete" + "</center></html>");
     private StartAppWindow startAppWindow;
 
-    private JButton[] buttons = { butRefresh, butKill, butStart };
+    private JButton[] buttons = { butRefresh, butKill, butStart, butDelete };
     private static int frameWidth = 540;
     private static int frameHeight = 450;
     private static String title = "process";
@@ -32,11 +33,11 @@ public class ProcessesController extends JFrame implements MouseListener {
         setLocation(160, 90);
         setPreferredSize(new Dimension(frameWidth, frameHeight));
         CenterAlignTitle();
-        
+
         setLayout(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setResizable(false);
-        
+
         scrollPane.setBounds(30, 90, 475, 300);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -46,15 +47,13 @@ public class ProcessesController extends JFrame implements MouseListener {
         butKill.setBounds(151, 15, 100, 60);
         butStart.setBounds(272, 15, 100, 60);
 
-        JButton tmpBut = new JButton();
-        tmpBut.setBounds(393, 15, 110, 60);
-        add(tmpBut);
+        butDelete.setBounds(393, 15, 110, 60);
 
         for (JButton button : buttons) {
             PrepareGUI(button);
             add(button);
         }
-        
+
         pack();
         AddAction();
         this.client = client;
@@ -89,6 +88,14 @@ public class ProcessesController extends JFrame implements MouseListener {
                 startAppWindow.Open();
             }
         });
+
+        butDelete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                table = new JTable(new String[0][5], columnPane);
+                scrollPane.setViewportView(table);
+            }
+        });
     }
 
     public void SetProcess(TaskObject taskObject) {
@@ -102,18 +109,18 @@ public class ProcessesController extends JFrame implements MouseListener {
         java.awt.FontMetrics fm = this.getFontMetrics(f);
         int x = fm.stringWidth(title);
         int y = fm.stringWidth(" ");
-        int z = (frameWidth/2) - (x/2);
-        int w = z/y;
-        String pad =" ";
-        pad = String.format("%"+w+"s", pad);
-        setTitle(pad+title);
+        int z = (frameWidth / 2) - (x / 2);
+        int w = z / y;
+        String pad = " ";
+        pad = String.format("%" + w + "s", pad);
+        setTitle(pad + title);
     }
 
     private void PrepareGUI(JButton button) {
         button.setOpaque(true);
         button.setFont(new Font("System", Font.PLAIN, 14));
         button.setFocusable(false);
-        button.setBackground(Color.decode("#E6E6FA"));//E8E8E8
+        button.setBackground(Color.decode("#E6E6FA"));// E8E8E8
         button.setBorder(new RoundedBorder(10));
         button.addMouseListener(this);
     }
