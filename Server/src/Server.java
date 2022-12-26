@@ -62,7 +62,6 @@ public class Server {
                     this.clientSocket = this.serverSocket.accept();
                     this.dataOutputStream = new DataOutputStream(clientSocket.getOutputStream());
                     this.dataInputStream = new DataInputStream(clientSocket.getInputStream());
-                    continue;
                 }
                 String cmdString = ReceiveCommand();
                 if (cmdString.equalsIgnoreCase("ShutDown")) {

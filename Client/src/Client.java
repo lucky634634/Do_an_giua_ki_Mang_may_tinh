@@ -85,7 +85,6 @@ public class Client {
 
     public String ReceiveCommand() {
         if (!IsConnected()) {
-            // JOptionPane.showMessageDialog(null, "Lỗi kết nối dến server1");
             return "None";
         }
         String cmd = "None";
@@ -159,7 +158,7 @@ public class Client {
 
     public void SendData(String cmd, Object obj) {
         if (!IsConnected()) {
-            JOptionPane.showMessageDialog(null, "Lỗi kết nối dến server3");
+            JOptionPane.showMessageDialog(null, "Chưa kết nối dến server", null, JOptionPane.INFORMATION_MESSAGE);
             return;
         }
         try {
